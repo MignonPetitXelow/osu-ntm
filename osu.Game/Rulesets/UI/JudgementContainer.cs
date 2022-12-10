@@ -9,7 +9,7 @@ using osu.Game.Rulesets.Judgements;
 
 namespace osu.Game.Rulesets.UI
 {
-    public class JudgementContainer<T> : Container<T>
+    public partial class JudgementContainer<T> : Container<T>
         where T : DrawableJudgement
     {
         public override void Add(T judgement)
@@ -18,7 +18,7 @@ namespace osu.Game.Rulesets.UI
 
             // remove any existing judgements for the judged object.
             // this can be the case when rewinding.
-            RemoveAll(c => c.JudgedObject == judgement.JudgedObject);
+            RemoveAll(c => c.JudgedObject == judgement.JudgedObject, false);
 
             base.Add(judgement);
         }

@@ -23,7 +23,7 @@ namespace osu.Game.Tests.Visual.Multiplayer
     /// <summary>
     /// A <see cref="MultiplayerClient"/> for use in multiplayer test scenes. Should generally not be used by itself outside of a <see cref="MultiplayerTestScene"/>.
     /// </summary>
-    public class TestMultiplayerClient : MultiplayerClient
+    public partial class TestMultiplayerClient : MultiplayerClient
     {
         public override IBindable<bool> IsConnected => isConnected;
         private readonly Bindable<bool> isConnected = new Bindable<bool>(true);
@@ -81,13 +81,14 @@ namespace osu.Game.Tests.Visual.Multiplayer
         public void Disconnect() => isConnected.Value = false;
 
         public MultiplayerRoomUser AddUser(APIUser user, bool markAsPlaying = false)
-        {
-            var roomUser = new MultiplayerRoomUser(user.Id) { User = user };
+            => AddUser(new MultiplayerRoomUser(user.Id) { User = user }, markAsPlaying);
 
+        public MultiplayerRoomUser AddUser(MultiplayerRoomUser roomUser, bool markAsPlaying = false)
+        {
             addUser(roomUser);
 
             if (markAsPlaying)
-                PlayingUserIds.Add(user.Id);
+                PlayingUserIds.Add(roomUser.UserID);
 
             return roomUser;
         }
